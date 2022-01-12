@@ -57,12 +57,14 @@ def parse_document(file):
 if not len(sys.argv) == 2:
     print("Have you tried putting a/only one file as a argument?")
 
-print("QuickDoc V." + str(VERSION))
-print("Starting parsing")
-document = parse_document(sys.argv[1])
-print("Finished parsing; Starting compiling")
-html = compile_html(document)
-f = open(os.path.splitext(sys.argv[1])[0] + ".html", mode="w")
-f.write(html)
-f.close()
-print(html)
+
+if __name__ == '__main__':
+    print("QuickDoc V." + str(VERSION))
+    print("Starting parsing")
+    document = parse_document(sys.argv[1])
+    print("Finished parsing; Starting compiling")
+    html = compile_html(document)
+    f = open(os.path.splitext(sys.argv[1])[0] + ".html", mode="w")
+    f.write(html)
+    f.close()
+    print(html)
