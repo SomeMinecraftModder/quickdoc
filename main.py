@@ -7,7 +7,7 @@ SPECIAL_KEYWORD = ["bar"]  # special keyword are keyword that doesn't need attri
 
 
 def compile_html(parsed_input):
-    compiled_html = '''<doctype HTML> <!--Generated using QuickDoc 0.0.1-->
+    compiled_html = '''<!doctype HTML> <!--Generated using QuickDoc 0.0.1-->
 <html>
 <head>'''
     for key in range(len(parsed_input)):
@@ -16,8 +16,17 @@ def compile_html(parsed_input):
     compiled_html = compiled_html + "</head><body>"
     for key in range(len(parsed_input)):
         current_key = list(parsed_input.keys())[key]
-        if current_key == "doc_title":  # retrieve needed value(s) for <head>
+        if current_key == "doc_title":  # retrieve needed value(s) for <body>
             compiled_html = compiled_html + "<h1>%s</h1>" % list(parsed_input.values())[key]
+        if current_key == "sub_title":  # retrieve needed value(s) for <body>
+            compiled_html = compiled_html + "<h2>%s</h2>" % list(parsed_input.values())[key]
+        if current_key == "text":  # retrieve needed value(s) for <body>
+            compiled_html = compiled_html + "<p>%s</p>" % list(parsed_input.values())[key]
+        if current_key == "bar":  # retrieve needed value(s) for <body>
+            compiled_html = compiled_html + "<hr>"
+        if current_key == "author":  # retrieve needed value(s) for <body>
+            compiled_html = compiled_html + "<address>%s</address>" % list(parsed_input.values())[key]
+    compiled_html = compiled_html + "</body></html>"
     return compiled_html
 
 
@@ -61,7 +70,7 @@ if __name__ == '__main__':
     document = parse_document(sys.argv[1])
     print("Finished parsing; Starting compiling")
     html = compile_html(document)
-    f = open(os.path.splitext(sys.argv[1])[0] + ".html", mode="w")
+    f = open(os.path.splitext(sys.argv[1])[0] + ".html", mode="w")  # yes
     f.write(html)
     f.close()
     print(html)
