@@ -1,7 +1,6 @@
 import sys
 import os.path
 
-
 VERSION = "0.0.1"
 KEYWORD = ["doc_title", "sub_title", "text", "bar", "author"]
 SPECIAL_KEYWORD = ["bar"]  # special keyword are keyword that doesn't need attribut
@@ -54,11 +53,9 @@ def parse_document(file):
     return parsed_document_dict
 
 
-if not len(sys.argv) == 2:
-    print("Have you tried putting a/only one file as a argument?")
-
-
 if __name__ == '__main__':
+    if not len(sys.argv) == 2:
+        print("Have you tried putting a/only one file as a argument?")
     print("QuickDoc V." + str(VERSION))
     print("Starting parsing")
     document = parse_document(sys.argv[1])
