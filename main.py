@@ -70,7 +70,7 @@ if __name__ == '__main__':
     document = parse_document(sys.argv[1])
     print("Finished parsing; Starting compiling")
     html = compile_html(document)
+    print("Compiling finished!; File saved at %s" % os.path.splitext(sys.argv[1])[0] + ".html")
     f = open(os.path.splitext(sys.argv[1])[0] + ".html", mode="w")  # yes
     f.write(html)
     f.close()
-    print(html)
