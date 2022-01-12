@@ -1,9 +1,25 @@
 import sys
+import os.path
 
 
 VERSION = "0.0.1"
 KEYWORD = ["doc_title", "sub_title", "text", "bar", "author"]
 SPECIAL_KEYWORD = ["bar"]  # special keyword are keyword that doesn't need attribut
+
+
+def compile_html(parsed_input):
+    compiled_html = '''<doctype HTML> <!--Generated using QuickDoc 0.0.1-->
+<html>
+<head>'''
+    for key in range(len(parsed_input)):
+        if list(parsed_input.keys())[key] == "doc_title":  # retrieve needed value(s) for <head>
+            compiled_html = compiled_html + "<title>%s</title>" % list(parsed_input.values())[key]
+    compiled_html = compiled_html + "</head><body>"
+    for key in range(len(parsed_input)):
+        current_key = list(parsed_input.keys())[key]
+        if current_key == "doc_title":  # retrieve needed value(s) for <head>
+            compiled_html = compiled_html + "<h1>%s</h1>" % list(parsed_input.values())[key]
+    return compiled_html
 
 
 def parse_document(file):
@@ -23,6 +39,8 @@ def parse_document(file):
             print("Error at line: %s" % iteration)
             print("Keyword not recognized: %s" % line[0])
             exit(-1)
+        if len(line) == 2 and line[1].startswith(" "):  # remove the first letter of the keyword value if it's a space
+            line[1] = line[1][1:]
         if line[0] in SPECIAL_KEYWORD:
             line_parsed = {line[0]: line[0]}
         else:
@@ -43,4 +61,8 @@ print("QuickDoc V." + str(VERSION))
 print("Starting parsing")
 document = parse_document(sys.argv[1])
 print("Finished parsing; Starting compiling")
-print(document)
+html = compile_html(document)
+f = open(os.path.splitext(sys.argv[1])[0] + ".html", mode="w")
+f.write(html)
+f.close()
+print(html)
