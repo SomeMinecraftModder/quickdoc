@@ -5,5 +5,6 @@ Just a document creation/building thingy. Like LaTex. But Simpler(-ish) and Newe
 
 # quickstart
 Download using ```git clone https://github.com/SomeMinecraftModder/quickdoc.git```
+
 Build the sample document: ```python3 main.py doc.qdd```
 You can now enjoy your document with QuickDoc!
