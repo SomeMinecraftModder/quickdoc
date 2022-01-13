@@ -29,6 +29,12 @@ def compile_html(parsed_input):
             compiled_html = compiled_html + "<hr>"
         if current_key == "author":
             compiled_html = compiled_html + "<address>%s</address>" % parsed_input[key][1]
+        if current_key == "list":
+            list_html = parsed_input[key][1].split("\n")[:-1]  # magic
+            compiled_html = compiled_html + "<ul>"
+            for list_element in list_html:
+                compiled_html = compiled_html + "<li>%s</li>" % list_element
+            compiled_html = compiled_html + "</ul>"
     compiled_html = compiled_html + "</body></html>"
     return compiled_html
 
@@ -52,7 +58,7 @@ def parse_document(file):
             for iteration_check_line, checked_line in enumerate(parsed_document[iteration:]):
                 if checked_line == "]":  # It is!
                     is_multi_line_keyword = iteration_check_line + iteration
-            if is_multi_line_keyword == -1:
+            if is_multi_line_keyword == -1:  # It's not
                 print("Error at line: %s" % iteration)
                 print("Line not starting and ending with [ or ]")
                 exit(-1)
