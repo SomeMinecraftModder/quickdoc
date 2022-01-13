@@ -45,7 +45,7 @@ def parse_document(file):
             print("Line not starting and ending with [ or ]")
             exit(-1)
         line = line[1:-1]  # Remove the first and the last character of a string
-        line = line.split(":")
+        line = line.split(":", 1)
         if not line[0] in KEYWORD:
             print("Error at line: %s" % iteration)
             print("Keyword not recognized: %s" % line[0])
