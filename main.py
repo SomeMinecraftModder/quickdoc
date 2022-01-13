@@ -4,6 +4,7 @@ import os.path
 VERSION = "0.0.2"
 KEYWORD = ["doc_title", "sub_title", "text", "bar", "author", "list"]
 SPECIAL_KEYWORD = ["bar"]  # special keyword are keyword that doesn't need attribut
+MULTI_LINE_KEYWORD = ["list"]
 
 
 def compile_html(parsed_input):
@@ -13,7 +14,6 @@ def compile_html(parsed_input):
     for key in range(len(parsed_input)):
         key += 1
         if parsed_input[key][0] == "doc_title":  # retrieve needed value(s) for <head>
-            print("1")
             compiled_html = compiled_html + "<title>%s</title>" % parsed_input[key][1]
     compiled_html = compiled_html + "</head><body>"
     for key in range(len(parsed_input)):
@@ -53,7 +53,7 @@ def parse_document(file):
             print("Error at line: %s" % iteration)
             print("Line not starting and ending with [ or ]")
             exit(-1)
-        else:  # Wait, that maybe is a multi-line keyword?
+        elif not line.endswith("]"):  # Wait, that maybe is a multi-line keyword?
             is_multi_line_keyword = -1
             for iteration_check_line, checked_line in enumerate(parsed_document[iteration:]):
                 if checked_line == "]":  # It is!
@@ -84,6 +84,8 @@ def parse_document(file):
     parsed_document_dict = {}
     for dictionary in parsed_document:  # bad code for merging all the dictionary
         parsed_document_dict.update(dictionary)
+    for iteration, line in enumerate(list(parsed_document_dict)):  # fix "hole" in parsed output
+        parsed_document_dict[iteration + 1] = parsed_document_dict.pop(line)
     return parsed_document_dict
 
 

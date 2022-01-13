@@ -1,5 +1,11 @@
-[doc_title: pain]
+[doc_title: QuickDoc sample document]
 [sub_title: Hi!]
-[text: What the fucking point of this]
+[text: What the point of this]
+[text: idk]
+[list
+Look!
+You can now do list
+Introduced in 0.0.2
+]
 [bar]
 [author: Me]
