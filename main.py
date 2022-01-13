@@ -2,7 +2,7 @@ import sys
 import os.path
 
 VERSION = "0.0.2"
-KEYWORD = ["doc_title", "sub_title", "text", "bar", "author"]
+KEYWORD = ["doc_title", "sub_title", "text", "bar", "author", "list"]
 SPECIAL_KEYWORD = ["bar"]  # special keyword are keyword that doesn't need attribut
 
 
@@ -38,12 +38,28 @@ def parse_document(file):
     f = raw_file.read()
     parsed_document = f.split("\n")
     parsed_document_temp = []
+    ignore_list = []
     for iteration, line in enumerate(parsed_document):
         iteration = iteration + 1  # That will not break anything
-        if not (line.startswith("[") and line.endswith("]")):
+        if iteration in ignore_list:
+            continue
+        if not (line.startswith("[")):
             print("Error at line: %s" % iteration)
             print("Line not starting and ending with [ or ]")
             exit(-1)
+        else:  # Wait, that maybe is a multi-line keyword?
+            is_multi_line_keyword = -1
+            for iteration_check_line, checked_line in enumerate(parsed_document[iteration:]):
+                if checked_line == "]":  # It is!
+                    is_multi_line_keyword = iteration_check_line + iteration
+            if is_multi_line_keyword == -1:
+                print("Error at line: %s" % iteration)
+                print("Line not starting and ending with [ or ]")
+                exit(-1)
+            else:
+                line = parsed_document[iteration - 1] + '\n'.join(parsed_document[iteration:is_multi_line_keyword + 1])
+                for ignore in range(iteration, is_multi_line_keyword + 2):
+                    ignore_list.append(ignore)
         line = line[1:-1]  # Remove the first and the last character of a string
         line = line.split(":", 1)
         if not line[0] in KEYWORD:
