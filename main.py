@@ -1,31 +1,34 @@
 import sys
 import os.path
 
-VERSION = "0.0.1"
+VERSION = "0.0.2"
 KEYWORD = ["doc_title", "sub_title", "text", "bar", "author"]
 SPECIAL_KEYWORD = ["bar"]  # special keyword are keyword that doesn't need attribut
 
 
 def compile_html(parsed_input):
-    compiled_html = '''<!doctype HTML> <!--Generated using QuickDoc 0.0.1-->
+    compiled_html = '''<!doctype HTML> <!--Generated using QuickDoc %s-->
 <html>
-<head>'''
+<head>''' % VERSION
     for key in range(len(parsed_input)):
-        if list(parsed_input.keys())[key] == "doc_title":  # retrieve needed value(s) for <head>
-            compiled_html = compiled_html + "<title>%s</title>" % list(parsed_input.values())[key]
+        key += 1
+        if parsed_input[key][0] == "doc_title":  # retrieve needed value(s) for <head>
+            print("1")
+            compiled_html = compiled_html + "<title>%s</title>" % parsed_input[key][1]
     compiled_html = compiled_html + "</head><body>"
     for key in range(len(parsed_input)):
-        current_key = list(parsed_input.keys())[key]
-        if current_key == "doc_title":  # retrieve needed value(s) for <body>
-            compiled_html = compiled_html + "<h1>%s</h1>" % list(parsed_input.values())[key]
-        if current_key == "sub_title":  # retrieve needed value(s) for <body>
-            compiled_html = compiled_html + "<h2>%s</h2>" % list(parsed_input.values())[key]
-        if current_key == "text":  # retrieve needed value(s) for <body>
-            compiled_html = compiled_html + "<p>%s</p>" % list(parsed_input.values())[key]
-        if current_key == "bar":  # retrieve needed value(s) for <body>
+        key += 1
+        current_key = parsed_input[key][0]  # retrieve needed value(s) for <head>
+        if current_key == "doc_title":
+            compiled_html = compiled_html + "<h1>%s</h1>" % parsed_input[key][1]
+        if current_key == "sub_title":
+            compiled_html = compiled_html + "<h2>%s</h2>" % parsed_input[key][1]
+        if current_key == "text":
+            compiled_html = compiled_html + "<p>%s</p>" % parsed_input[key][1]
+        if current_key == "bar":
             compiled_html = compiled_html + "<hr>"
-        if current_key == "author":  # retrieve needed value(s) for <body>
-            compiled_html = compiled_html + "<address>%s</address>" % list(parsed_input.values())[key]
+        if current_key == "author":
+            compiled_html = compiled_html + "<address>%s</address>" % parsed_input[key][1]
     compiled_html = compiled_html + "</body></html>"
     return compiled_html
 
@@ -50,9 +53,9 @@ def parse_document(file):
         if len(line) == 2 and line[1].startswith(" "):  # remove the first letter of the keyword value if it's a space
             line[1] = line[1][1:]
         if line[0] in SPECIAL_KEYWORD:
-            line_parsed = {line[0]: line[0]}
+            line_parsed = {iteration: [line[0], line[0]]}
         else:
-            line_parsed = {line[0]: line[1]}
+            line_parsed = {iteration: [line[0], line[1]]}
         parsed_document_temp.append(line_parsed)
     raw_file.close()
     parsed_document = parsed_document_temp
