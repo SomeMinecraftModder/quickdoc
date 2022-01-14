@@ -2,7 +2,10 @@ import sys
 import os.path
 
 VERSION = "0.0.2"
-KEYWORD = ["doc_title", "sub_title", "text", "bar", "author", "list"]
+KEYWORD = ["doc_title", "sub_title", "text", "bar", "author", "list", "image", "option"]
+QUICK_KEYWORD = {"doc": "doc_title", "sub": "sub_title", "t": "text", "b": "bar", "a": "author", "l": "list", "img":
+                 "image", "option": "option"}
+OPTION = {"quick": False}
 SPECIAL_KEYWORD = ["bar"]  # special keyword are keyword that doesn't need attribut
 MULTI_LINE_KEYWORD = ["list"]
 
@@ -68,12 +71,29 @@ def parse_document(file):
                     ignore_list.append(ignore)
         line = line[1:-1]  # Remove the first and the last character of a string
         line = line.split(":", 1)
-        if not line[0] in KEYWORD:
+        if not line[0] in KEYWORD + list(QUICK_KEYWORD.keys()):
             print("Error at line: %s" % iteration)
             print("Keyword not recognized: %s" % line[0])
             exit(-1)
         if len(line) == 2 and line[1].startswith(" "):  # remove the first letter of the keyword value if it's a space
             line[1] = line[1][1:]
+
+        if line[0] == "option":  # we found an option!
+            if line[1] in OPTION:
+                OPTION[line[1]] = True
+            else:
+                print("Error at line: %s" % iteration)
+                print("Option not recognized: %s" % line[1])
+                exit(-1)
+        
+        if OPTION["quick"] and (line[0] not in KEYWORD):
+            try:
+                line[0] = QUICK_KEYWORD[line[0]]
+            except KeyError:
+                print("Error at line %s" % iteration)
+                print("Keyword not recognized: %s" % line[0])
+                exit(-1)
+
         if line[0] in SPECIAL_KEYWORD:
             line_parsed = {iteration: [line[0], line[0]]}
         else:
