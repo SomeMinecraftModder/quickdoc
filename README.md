@@ -14,4 +14,4 @@ You can now enjoy your document with QuickDoc!
 * Add support for compiling to markdown
 * Switch to class instead of function for looking more *profesional* <!-- leaving that typo here -->
 * Write some fancy README.MD
-* ~~Add support for image~~ done in #3a6bd66f79786fe660b339fa57e6b2d09d202008
+* ~~Add support for image~~ Done!
