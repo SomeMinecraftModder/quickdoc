@@ -1,7 +1,7 @@
 # quickdoc
 ***Who need Word or LaTex anyway?***
 
-Just a document creation/building thingy. Like LaTex. But Simpler(-ish) and Newer! (Please don't use this thing)
+Just a document creation/building thingy. Like LaTex. But Simpler(-ish) and worst. (Please don't use this thing)
 
 # quickstart
 Download using ```git clone https://github.com/SomeMinecraftModder/quickdoc.git```
@@ -12,6 +12,6 @@ You can now enjoy your document with QuickDoc!
 # TODO
 * Write test
 * Add support for compiling to markdown
-* Switch to class instead of function for looking more *profesional*
+* Switch to class instead of function for looking more *profesional* <!-- leaving that typo here -->
 * Write some fancy README.MD
 * Add support for image

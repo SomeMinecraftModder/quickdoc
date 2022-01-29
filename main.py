@@ -29,28 +29,28 @@ def compile_html(parsed_input):
         key += 1
         if parsed_input[key][0] == "doc_title":  # retrieve needed value(s) for <head>
             compiled_html = compiled_html + "<title>%s</title>" % parsed_input[key][1]
-    compiled_html = compiled_html + "</head><body>"
+    compiled_html = compiled_html + "</head>\n<body>\n"
     for key in range(len(parsed_input)):
         key += 1
         current_key = parsed_input[key][0]  # retrieve needed value(s) for <head>
         if current_key == "doc_title":
-            compiled_html = compiled_html + "<h1>%s</h1>" % parsed_input[key][1]
+            compiled_html = compiled_html + "<h1>%s</h1>\n" % parsed_input[key][1]
         elif current_key == "sub_title":
-            compiled_html = compiled_html + "<h2>%s</h2>" % parsed_input[key][1]
+            compiled_html = compiled_html + "<h2>%s</h2>\n" % parsed_input[key][1]
         elif current_key == "text":
-            compiled_html = compiled_html + "<p>%s</p>" % parsed_input[key][1]
+            compiled_html = compiled_html + "<p>%s</p>\n" % parsed_input[key][1]
         elif current_key == "bar":
-            compiled_html = compiled_html + "<hr>"
+            compiled_html = compiled_html + "<hr>\n"
         elif current_key == "author":
-            compiled_html = compiled_html + "<address>%s</address>" % parsed_input[key][1]
+            compiled_html = compiled_html + "<address>%s</address>\n" % parsed_input[key][1]
         elif current_key == "list":
             list_html = parsed_input[key][1].split("\n")[:-1]  # magic
-            compiled_html = compiled_html + "<ul>"
+            compiled_html = compiled_html + "<ul>\n"
             for list_element in list_html:
-                compiled_html = compiled_html + "<li>%s</li>" % list_element
-            compiled_html = compiled_html + "</ul>"
+                compiled_html = compiled_html + "<li>%s</li>\n" % list_element
+            compiled_html = compiled_html + "</ul>\n"
         elif current_key == "image":
-            compiled_html = compiled_html + "<img src=\"%s\">" % parsed_input[key][1]
+            compiled_html = compiled_html + "<img src=\"%s\">\n" % parsed_input[key][1]
     compiled_html = compiled_html + "</body></html>"
     return compiled_html
 
