@@ -10,6 +10,17 @@ SPECIAL_KEYWORD = ["bar"]  # special keyword are keyword that doesn't need attri
 MULTI_LINE_KEYWORD = ["list"]
 
 
+class ParsedOutput:
+    def __init__(self, keys):
+        self.keys = keys
+    
+    def __len__(self):
+        return len(self.keys)
+
+    def __getitem__(self, num_key):
+        return self.keys[num_key]
+
+
 def compile_html(parsed_input):
     compiled_html = '''<!doctype HTML> <!--Generated using QuickDoc %s-->
 <html>
@@ -87,7 +98,7 @@ def parse_document(file):
                 print("Error at line: %s" % iteration)
                 print("Option not recognized: %s" % line[1])
                 exit(-1)
-        
+
         if OPTION["quick"] and (line[0] not in KEYWORD):
             try:
                 line[0] = QUICK_KEYWORD[line[0]]
@@ -108,7 +119,7 @@ def parse_document(file):
         parsed_document_dict.update(dictionary)
     for iteration, line in enumerate(list(parsed_document_dict)):  # fix "hole" in parsed output
         parsed_document_dict[iteration + 1] = parsed_document_dict.pop(line)
-    return parsed_document_dict
+    return ParsedOutput(parsed_document_dict)
 
 
 if __name__ == '__main__':
